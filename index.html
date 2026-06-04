@@ -16,6 +16,7 @@
     --blue-deep:#1a45a8;
     --amber:#ffb627;
     --red:#ff4d4d;
+    --green:#2ecf8f;
     --ink:#e8edf8;
     --muted:#7a8fbb;
   }
@@ -24,13 +25,14 @@
   body{
     font-family:'Heebo',sans-serif;
     background:radial-gradient(1200px 700px at 50% -10%, #0e1c3a 0%, var(--bg2) 38%, var(--bg) 100%);
+    background-attachment:fixed;
     color:var(--ink);
-    height:100dvh;
+    min-height:100dvh;
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
-    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y:auto;
     position:relative;
     line-height:1.42;
   }
@@ -56,16 +58,13 @@
     animation:scan 8s linear infinite;
   }
   @keyframes scan{from{background-position:0 0}to{background-position:0 100px}}
-
   .wrap{
     position:relative;z-index:2;width:100%;max-width:680px;
-    height:100dvh;
+    min-height:100dvh;
     padding:clamp(10px,2.2vh,22px) 20px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:clamp(8px,1.6vh,16px);
   }
-
-
   /* alert chip */
   .chip{
     display:inline-flex;align-items:center;gap:9px;
@@ -79,12 +78,10 @@
   }
   .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:blink 1.1s steps(1) infinite}
   @keyframes blink{50%{opacity:.25}}
-
   /* hook scene */
   .scene{position:relative;opacity:0;animation:fadeUp .7s ease forwards .5s;line-height:.9}
   .scene .hook{font-size:clamp(40px,7.5vh,68px);line-height:1;filter:drop-shadow(0 8px 18px rgba(0,0,0,.6));display:inline-block;animation:sway 3.4s ease-in-out infinite}
   @keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
-
   h1{
     font-family:'Secular One',sans-serif;
     font-size:clamp(1.7rem,4.6vh,3.4rem);
@@ -106,13 +103,11 @@
     opacity:0;
   }
   @keyframes pulseWarn{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-
   .sub{
     text-align:center;font-size:clamp(.95rem,2.2vh,1.3rem);
     color:var(--ink);font-weight:600;
     opacity:0;animation:fadeUp .7s ease forwards .8s;
   }
-
   .card{
     width:100%;
     background:linear-gradient(180deg, rgba(14,24,50,.9), rgba(8,12,28,.92));
@@ -126,7 +121,6 @@
   .line:last-child{border-bottom:none}
   .line .emo{font-size:clamp(1.15rem,2.6vh,1.5rem);line-height:1.4;flex-shrink:0}
   .line b{color:var(--blue-bright);font-weight:800}
-
   .punch{
     text-align:center;
     font-family:'Secular One',sans-serif;
@@ -135,7 +129,6 @@
     text-shadow:0 0 30px rgba(255,182,39,.2);
     opacity:0;animation:fadeUp .7s ease forwards 1.1s;
   }
-
   .sign{
     text-align:center;
     opacity:0;animation:fadeUp .7s ease forwards 1.25s;
@@ -147,56 +140,188 @@
     letter-spacing:.3px;
   }
   .sign .team .sep{color:var(--muted);font-weight:300}
-
   .foot{font-size:clamp(.68rem,1.5vh,.82rem);color:#3d5080;text-align:center;opacity:0;animation:fadeUp .7s ease forwards 1.4s}
-
   @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
   @keyframes fadeDown{to{opacity:1;transform:translateY(0)}}
   .fadeUp{transform:translateY(16px)}
 
-  @media (max-height:690px){
-    .scene{display:none}
-    .foot{display:none}
+  /* scroll hint */
+  .scroll-hint{
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:var(--muted);font-weight:600;font-size:.82rem;letter-spacing:.3px;
+    margin-top:clamp(6px,1.4vh,14px);
+    opacity:0;animation:fadeUp .7s ease forwards 1.55s;
   }
+  .scroll-hint .arr{font-size:1.2rem;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+  /* ===== Red-flags section ===== */
+  .flags{
+    position:relative;z-index:2;width:100%;max-width:680px;
+    padding:clamp(28px,6vh,64px) 20px clamp(40px,8vh,80px);
+    display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.4vh,24px);
+  }
+  .flags-head{text-align:center}
+  .flags-kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,182,39,.1);
+    border:1px solid rgba(255,182,39,.4);
+    color:var(--amber);
+    padding:6px 15px;border-radius:999px;
+    font-weight:800;letter-spacing:.4px;font-size:.84rem;
+  }
+  .flags-title{
+    font-family:'Secular One',sans-serif;
+    font-size:clamp(1.5rem,3.6vh,2.4rem);
+    line-height:1.12;margin-top:12px;
+    background:linear-gradient(180deg,#fff 0%, var(--blue-bright) 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .flags-intro{
+    text-align:center;color:var(--muted);font-size:clamp(.95rem,2vh,1.1rem);
+    max-width:520px;margin:0 auto;
+  }
+  .flag{
+    width:100%;
+    background:linear-gradient(180deg, rgba(14,24,50,.92), rgba(8,12,28,.94));
+    border:1px solid rgba(61,126,245,.2);
+    border-radius:18px;
+    padding:clamp(16px,2.4vh,24px) clamp(16px,3vw,26px);
+    box-shadow:0 18px 44px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03);
+    position:relative;overflow:hidden;
+  }
+  .flag::before{
+    content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;
+    background:linear-gradient(180deg,var(--red),var(--amber));
+  }
+  .flag-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .flag-num{
+    flex-shrink:0;width:42px;height:42px;border-radius:12px;
+    display:grid;place-items:center;
+    font-family:'Secular One',sans-serif;font-size:1.3rem;
+    color:#06080f;background:linear-gradient(160deg,var(--blue-bright),var(--blue));
+    box-shadow:0 6px 16px rgba(61,126,245,.35);
+  }
+  .flag-h{font-family:'Secular One',sans-serif;font-size:clamp(1.05rem,2.5vh,1.35rem);color:var(--ink);line-height:1.2}
+  .flag p{color:var(--muted);font-size:clamp(.92rem,2vh,1.05rem);margin-bottom:14px}
+  .flag p b{color:var(--ink);font-weight:800}
+  /* compare rows */
+  .cmp{display:flex;flex-wrap:wrap;gap:10px}
+  .pill{
+    flex:1 1 200px;min-width:0;
+    display:flex;align-items:center;gap:10px;
+    padding:11px 14px;border-radius:12px;
+    font-family:'Heebo',monospace;font-weight:600;
+    direction:ltr;text-align:left;
+    font-size:clamp(.86rem,1.9vh,1rem);
+    word-break:break-all;
+  }
+  .pill .ic{flex-shrink:0;font-size:1.05rem}
+  .pill.bad{background:rgba(255,77,77,.09);border:1px solid rgba(255,77,77,.4);color:#ffb3b3}
+  .pill.good{background:rgba(46,207,143,.09);border:1px solid rgba(46,207,143,.4);color:#a7f0d2}
+  .pill mark{background:transparent;color:var(--red);font-weight:800;padding:0 1px;text-decoration:underline wavy var(--red)}
+  .pill.good mark{color:var(--green);text-decoration:none}
+  .logo-demo{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .logo-box{flex:1 1 160px;display:flex;flex-direction:column;gap:8px;align-items:center;padding:14px;border-radius:12px}
+  .logo-box.bad{background:rgba(255,77,77,.07);border:1px solid rgba(255,77,77,.35)}
+  .logo-box.good{background:rgba(46,207,143,.07);border:1px solid rgba(46,207,143,.35)}
+  .logo-tag{font-size:.78rem;font-weight:800;letter-spacing:.3px}
+  .logo-box.bad .logo-tag{color:#ffb3b3}
+  .logo-box.good .logo-tag{color:#a7f0d2}
+  .logo-mark{display:flex;align-items:center;gap:9px;font-family:'Secular One',sans-serif;font-size:1.15rem;color:var(--ink)}
+  .logo-mark .glyph{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:1rem}
+  .logo-box.bad .glyph{background:#5a3b6e;color:#e9c7ff;transform:rotate(-8deg);font-family:'Heebo'}
+  .logo-box.good .glyph{background:linear-gradient(160deg,var(--blue-bright),var(--blue));color:#06080f}
+  .tip{
+    margin-top:16px;display:flex;gap:10px;align-items:flex-start;
+    background:rgba(61,126,245,.07);border:1px solid rgba(61,126,245,.22);
+    border-radius:12px;padding:12px 14px;color:var(--ink);
+    font-size:clamp(.88rem,1.9vh,1rem);
+  }
+  .tip .ic{flex-shrink:0;font-size:1.1rem}
+  .tip b{color:var(--blue-bright)}
+  .flags-foot{
+    text-align:center;font-family:'Secular One',sans-serif;
+    font-size:clamp(1.05rem,2.6vh,1.5rem);color:var(--amber);
+    text-shadow:0 0 30px rgba(255,182,39,.2);margin-top:8px;
+  }
+
   @media (max-width:480px){
     .wrap{gap:clamp(5px,1.1vh,11px);padding-top:8px;padding-bottom:8px}
-      .scene .hook{font-size:clamp(34px,5.5vh,50px)}
+    .scene .hook{font-size:clamp(34px,5.5vh,50px)}
     .line{padding:7px 0}
+    .pill{flex:1 1 100%}
   }
 </style>
 </head>
 <body>
   <div class="wrap">
-
     <div class="chip"><span class="dot"></span>אזהרת אבטחה • התרעת מערכת</div>
-
     <div class="scene"><span class="hook">🎣</span></div>
-
     <h1>שים לב!<br>נפלת בקמפיין פישינג ארגוני</h1>
     <p class="warn-big">אל תספר לאחרים 🤫</p>
     <p class="sub">כן... התכוונו אליך 👀</p>
-
     <div class="card">
-      <div class="line fadeUp"><span class="emo">😬</span><div>מאכזב מאוד… ואפילו <b>קצת מביך</b>. אבל אל דאגה — לא סיפרנו לאף אחד (עדיין).</div></div>
+      <div class="line fadeUp"><span class="emo">😬</span><div>מאכזב מאוד… ואפילו <b>קצת מביך</b>. אבל אל דאגה - לא סיפרנו לאף אחד (עדיין).</div></div>
       <div class="line fadeUp"><span class="emo">🧠</span><div>הגיע הזמן להתחיל <b>לחשוב פעמיים</b> ולחשוד <b>לפני</b> שלוחצים על לינק או מזינים פרטים אישיים.</div></div>
       <div class="line fadeUp"><span class="emo">🤝</span><div>טעויות קורות לכולם. מה שחשוב זה <b>ללמוד מהן</b> ולא ליפול שוב.</div></div>
     </div>
-
     <div class="punch">
-      היום זה היה תרגיל — מחר זה יהיה אירוע אמת ⚠️
+      היום זה היה תרגיל - מחר זה יהיה אירוע אמת ⚠️
     </div>
-
     <div class="sign">
       <div class="hope">מקווים שפעם הבאה זה לא יקרה</div>
       <div class="team">
         <span>צוות הסקיוריטי של Covenant</span>
-        <span class="sep">×</span>
-        <span>מנטיס</span>
       </div>
     </div>
-
-    <div class="foot">הודעה זו נשלחה כחלק מתרגיל מודעות אבטחת מידע מבוקר | Covenant Security Team × Mantis by Moveo Group</div>
-
+    <div class="scroll-hint">
+      <span>איך יכולת לזהות את זה?</span>
+      <span class="arr">↓</span>
+    </div>
   </div>
+
+  <!-- ===== Red flags section ===== -->
+  <section class="flags">
+    <div class="flags-head">
+      <span class="flags-kicker">🔍 שלושת הסימנים שפספסת</span>
+      <h2 class="flags-title">דגלים אדומים למייל פישינג</h2>
+    </div>
+    <p class="flags-intro">המייל התחזה למועדון ההטבות <b style="color:var(--ink)">הייטקזון</b>. הנה שלושה סימנים שהיו בו - ואיך לתפוס אותם בפעם הבאה.</p>
+
+    <!-- Flag 1 -->
+    <div class="flag">
+      <div class="flag-top">
+        <div class="flag-num">1</div>
+        <div class="flag-h">בכתובת השולח יש <span style="color:var(--red)">0</span> במקום o</div>
+      </div>
+      <p>הכתובת נראתה כמעט זהה לאמיתית - אבל ה־<b>"o"</b> בשם הדומיין הוחלף בספרה <b>"0"</b> (אפס): <span style="direction:ltr;unicode-bidi:isolate;color:var(--ink);font-weight:800">no-reply@htz<mark>0</mark>ne.co.il</span>. תעלול נפוץ שמנצל את זה שהעין קוראת מהר ולא בודקת אות־אות.</p>
+      <div class="tip"><span class="ic">💡</span><div><b>מה לעשות:</b> עברו עם העכבר מעל שם השולח וקראו את הכתובת המלאה לאט, אות־אות. חפשו ספרות שמחליפות אותיות (0/o, 1/l, rn/m).</div></div>
+    </div>
+
+    <!-- Flag 2 -->
+    <div class="flag">
+      <div class="flag-top">
+        <div class="flag-num">2</div>
+        <div class="flag-h">הלוגו במייל אינו הלוגו האמיתי של הייטקזון</div>
+      </div>
+      <p>הלוגו שהופיע במייל <b>אינו הלוגו הרשמי של הייטקזון</b> - הצבעים זהים, אבל <b>הצורה שונה</b> מהלוגו האמיתי של החברה.</p>
+      <div class="tip"><span class="ic">💡</span><div><b>מה לעשות:</b> ודאו שהמיתוג של המייל - לוגו, צבעים וצורה - תואם במדויק לחברה שכביכול שלחה אותו. השוו למייל רשמי קודם או לאתר החברה, ואם משהו נראה שונה אפילו במעט - חשדו.</div></div>
+    </div>
+
+    <!-- Flag 3 -->
+    <div class="flag">
+      <div class="flag-top">
+        <div class="flag-num">3</div>
+        <div class="flag-h">קישור הטופס מוביל לדומיין אחר לגמרי</div>
+      </div>
+      <p>המייל התחזה ל<b>הייטקזון</b>, אבל כפתור ההצטרפות הוביל לכתובת <span style="direction:ltr;unicode-bidi:isolate;color:var(--ink);font-weight:800">benefits-club.click</span> - <b>דומיין זר שאין לו שום קשר לחברה</b>. ארגון אמיתי לא ישלח אתכם להזין פרטים וסיסמה בכתובת שאינה שלו.</p>
+      <div class="tip"><span class="ic">💡</span><div><b>מה לעשות:</b> לפני שלוחצים - רחפו מעל הקישור ובדקו את הדומיין בשורת הכתובת. אם הוא לא תואם בדיוק לדומיין הרשמי, אל תזינו שום פרט ובוודאי לא סיסמה.</div></div>
+    </div>
+
+    <p class="flags-foot">חשד אחד קטן - מספיק כדי לעצור מתקפה גדולה 🛡️</p>
+
+    <div class="foot" style="opacity:1;animation:none;margin-top:6px">הודעה זו נשלחה כחלק מתרגיל מודעות אבטחת מידע מבוקר | Covenant Security Team × Mantis by Moveo Group</div>
+  </section>
 </body>
 </html>
